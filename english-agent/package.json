@@ -1,0 +1,7 @@
+{
+  "name": "english-agent",
+  "version": "1.0.0",
+  "private": true,
+  "description": "English Agent monorepo (phase 1 scaffold)",
+  "packageManager": "pnpm@10.26.1"
+}
