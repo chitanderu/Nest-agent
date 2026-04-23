@@ -1,0 +1,8 @@
+# Secrets
+**/key.ts
+
+# Dependencies
+node_modules/
+
+# macOS
+.DS_Store
