@@ -15,8 +15,17 @@
     "format": "prettier --write --experimental-cli src/"
   },
   "dependencies": {
+    "@element-plus/icons-vue": "^2.3.2",
     "@en/config": "workspace:*",
+    "@microsoft/fetch-event-source": "^2.0.1",
+    "@tailwindcss/vite": "^4.2.4",
+    "@types/three": "^0.184.0",
+    "axios": "^1.15.2",
+    "element-plus": "^2.13.7",
     "pinia": "^3.0.4",
+    "pinia-plugin-persistedstate": "^4.7.1",
+    "tailwindcss": "^4.2.4",
+    "three": "^0.184.0",
     "vue": "^3.5.32",
     "vue-router": "^5.0.4"
   },

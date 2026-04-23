@@ -2,6 +2,15 @@
   "name": "english-agent",
   "version": "1.0.0",
   "private": true,
-  "description": "English Agent monorepo (phase 1 scaffold)",
-  "packageManager": "pnpm@10.26.1"
+  "description": "English Agent monorepo",
+  "packageManager": "pnpm@10.26.1",
+  "scripts": {
+    "web": "pnpm --filter @en/web dev",
+    "server": "pnpm --filter @en/server start:dev",
+    "ai": "pnpm --filter @en/server start:dev ai",
+    "all": "concurrently \"pnpm run web\" \"pnpm run server\" \"pnpm run ai\""
+  },
+  "dependencies": {
+    "concurrently": "^9.2.1"
+  }
 }

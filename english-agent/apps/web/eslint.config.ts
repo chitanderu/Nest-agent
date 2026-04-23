@@ -23,4 +23,10 @@ export default defineConfigWithVueTs(
   ...pluginOxlint.buildFromOxlintConfigFile('.oxlintrc.json'),
 
   skipFormatting,
+  // 加这个
+  {
+    rules: {
+      'vue/multi-word-component-names': 'off',
+    },
+  },
 )

@@ -1,13 +1,133 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider     = "prisma-client"
+  output       = "../libs/shared/src/generated/prisma"
+  moduleFormat = "cjs"
 }
 
 datasource db {
   provider = "postgresql"
+}
+
+enum TradeStatus {
+  NOT_PAY          // 未支付
+  WAIT_BUYER_PAY   // 等待买家付款
+  TRADE_CLOSED     // 交易关闭
+  TRADE_SUCCESS    // 交易成功
+  TRADE_FINISHED   // 交易结束
+}
+
+// 用户表
+model User {
+  id              String           @id @default(cuid())
+  name            String
+  email           String?          @unique
+  phone           String           @unique
+  address         String?
+  password        String
+  avatar          String?
+  wordNumber      Int              @default(0)
+  dayNumber       Int              @default(0)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  lastLoginAt     DateTime?
+  wordBookRecords WordBookRecord[]
+  paymentRecords  PaymentRecord[]
+  courseRecords   CourseRecord[]
+}
+
+// 单词操作记录
+model WordBookRecord {
+  id        String   @id @default(cuid())
+  wordId    String
+  isMaster  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  word      WordBook @relation(fields: [wordId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, wordId])
+}
+
+// 单词表
+model WordBook {
+  id              String           @id @default(cuid())
+  word            String
+  phonetic        String?
+  definition      String?
+  translation     String?
+  pos             String?
+  collins         String?
+  oxford          String?
+  tag             String?
+  bnc             String?
+  frq             String?
+  exchange        String?
+  gk              Boolean?
+  zk              Boolean?
+  gre             Boolean?
+  toefl           Boolean?
+  ielts           Boolean?
+  cet6            Boolean?
+  cet4            Boolean?
+  ky              Boolean?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  wordBookRecords WordBookRecord[]
+
+  @@index([word])
+  @@index([tag])
+  @@index([word, tag])
+}
+
+// 支付记录
+model PaymentRecord {
+  id            String         @id @default(cuid())
+  userId        String
+  tradeNo       String?
+  outTradeNo    String         @unique
+  amount        Decimal
+  subject       String
+  body          String
+  tradeStatus   TradeStatus    @default(NOT_PAY)
+  sendPayTime   DateTime?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  courseRecords CourseRecord[]
+
+  @@index([tradeNo])
+}
+
+// 课程购买记录
+model CourseRecord {
+  id              String         @id @default(cuid())
+  userId          String
+  courseId        String
+  isPurchased     Boolean        @default(false)
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  paymentRecordId String?
+  paymentRecord   PaymentRecord? @relation(fields: [paymentRecordId], references: [id], onDelete: Cascade)
+  user            User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course          Course         @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, courseId])
+}
+
+// 课程表
+model Course {
+  id            String         @id @default(cuid())
+  name          String
+  value         String
+  description   String?
+  teacher       String
+  url           String
+  price         Decimal
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  courseRecords CourseRecord[]
 }
