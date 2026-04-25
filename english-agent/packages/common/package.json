@@ -4,6 +4,10 @@
   "description": "公共类型",
   "main": "index.js",
   "type": "module",
+  "exports": {
+    ".": "./index.ts",
+    "./word": "./word/index.ts"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
