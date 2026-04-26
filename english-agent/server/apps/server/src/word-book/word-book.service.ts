@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
 import type { WordQuery } from '@en/common/word';
 import { ResponseService, PrismaService } from '@libs/shared';
