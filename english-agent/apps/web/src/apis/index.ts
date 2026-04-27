@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from 'axios'
 export const timeout = 50000
 export const serverApi = axios.create({
